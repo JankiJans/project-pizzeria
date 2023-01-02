@@ -53,10 +53,37 @@
   };
 
   class product{
-    constructor(){
+    constructor(id, data){
       const thisProduct = this;
 
+      thisProduct.id = id;  //odnośnik do id produktu w data.js czyli np breakfast
+      thisProduct.data = data; //odnośnik do opisu produktu który znajduję się pod id czyli class, name, price itd
+
+      thisProduct.renderInMenu();
+
       console.log('new Product:', thisProduct);
+    }
+
+    renderInMenu(){ //metoda która ma tworzyć produkty na stronie
+      const thisProduct = this;
+
+      /* generate HTML based on template */
+
+      const generatedHTML = templates.menuProduct(thisProduct.data);  //generujemy kod na podstawie templatea który jest zapisany wyżej i ma id `template-menu-product`
+      console.log(generatedHTML);
+
+      /* create element using utils.createElementFromHtml */
+
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML); //tworzenie elementu DOM czyli obiektu wygenerowanego przez przeglądarke na podstaiwe kodu HTML
+
+      /* find menu container */
+
+      const menuContainer = document.querySelector(select.containerOf.menu);
+
+      /* add element to menu */
+      
+      menuContainer.appendChild(thisProduct.element);
+
     }
   }
 
@@ -65,18 +92,15 @@
       const thisApp = this;
       console.log('thisApp.data:', thisApp.data);
 
-      const  testProduct = new product();
-      console.log('testProduct:', testProduct);
-
       for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
+        new product(productData, thisApp.data.products[productData]);
       }
     },
 
     initData: function(){
       const thisApp = this;
   
-      thisApp.data = dataSource;
+      thisApp.data = dataSource; //odnośnik do data.js/dataSource
     },
   
     init: function(){
@@ -87,8 +111,8 @@
       console.log('settings:', settings);
       console.log('templates:', templates);
 
-      thisApp.initData();
-      thisApp.initMenu();
+      thisApp.initData(); //wyołanie `initData` przez `thisApp`
+      thisApp.initMenu(); //wyołanie `initMenu` przez `thisApp`
     },  
   };
 
