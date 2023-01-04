@@ -52,7 +52,7 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
-  class Product{
+  class Product {
     constructor(id, data){
       const thisProduct = this;
 
@@ -60,8 +60,11 @@
       thisProduct.data = data; //odnośnik do opisu produktu który znajduję się pod id czyli class, name, price itd
 
       thisProduct.renderInMenu();
-
+      thisProduct.getElements();
       thisProduct.initAccordion();
+      thisProduct.initOrderFrom();
+      thisProduct.procesOrder();
+      
 
       console.log('new Product:', thisProduct);
     }
@@ -88,40 +91,130 @@
 
     }
 
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); //odpowiada za nagłówek elementów(pozycji na stronie)
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form); //odpowiada za skłaniki po rozwinięciu
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs); //elemnt który odpowiada za ilość dodanych albo odjętych elemnetów
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //odpowiada za przycisk add to cart po rozwinęciu
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //opowiada za cenę TOTAL po rozwinięciu
+    }
+
     initAccordion(){
       const thisProduct = this;
 
       /* find the clickable trigger (the element that should react to clicking) */
 
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); // stała która szuka konkretnego elemntu z `thisProduct.element` znaleziona została w stałej `select` poźniej w menuProduct` i na końcu `clikable`
+      //const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable); // stała która szuka konkretnego elementu z `thisProduct.element` znaleziona została w stałej `select` poźniej w menuProduct` i na końcu `clikable`
 
       /* START: add event listener to clickable trigger on event click */
 
-      clickableTrigger.addEventListener('click', function(event){
+      //clickableTrigger.addEventListener('click', function(event){
+      thisProduct.accordionTrigger.addEventListener('click', function(event){
 
-      /* prevent default action for event */
+        /* prevent default action for event */
 
-      event.preventDefault(); //to pozwala zapobiec domyślnej akcji dla zdarzenia np. blokuje przekierowanie na inną stronę.
+        event.preventDefault(); //to pozwala zapobiec domyślnej akcji dla zdarzenia np. blokuje przekierowanie na inną stronę.
 
-      /* find active product (product that has active class) */
+        /* find active product (product that has active class) */
 
-      const activeProduct = document.querySelector(select.all.menuProductsActive);
-      console.log('activeProduct', activeProduct);
+        const activeProduct = document.querySelector(select.all.menuProductsActive);
+        console.log('activeProduct', activeProduct);
 
-      /* if there is active product and it's not thisProduct.element, remove class active from it */
+        /* if there is active product and it's not thisProduct.element, remove class active from it */
 
-      if(activeProduct && activeProduct !== thisProduct.element){
+        if(activeProduct && activeProduct !== thisProduct.element){
 
-        activeProduct.classList.remove('active');
-      }
+          activeProduct.classList.remove('active');
+        }
 
-      /* toggle active class on thisProduct.element */
+        /* toggle active class on thisProduct.element */
 
-      thisProduct.element.classList.toggle('active');
+        thisProduct.element.classList.toggle('active');
 
       });
 
     }
+
+    initOrderFrom(){  //średnio ogarniam
+      const thisProduct = this;
+      console.log('initOrderFrom:', thisProduct);
+
+      thisProduct.form.addEventListener('submit', function(event){
+        event.preventDefault();
+        thisProduct.procesOrder();
+  
+      });
+
+      for(let input of thisProduct.formInputs){
+        input.addEventListener('change', function(){
+          thisProduct.procesOrder();
+
+        });
+
+      }
+
+      thisProduct.cartButton.addEventListener('click', function(event){
+        event.preventDefault();
+        thisProduct.procesOrder();
+
+      });
+
+    }
+
+    procesOrder(){  //średnio ogarniam 
+      const thisProduct = this;
+      console.log('procesOrder:', thisProduct);
+
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData:', formData);
+
+      // set price to default price
+
+      let price = thisProduct.data.price;
+
+      // for every category (param)...
+
+      for(let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+
+        const param = thisProduct.data.params[paramId];
+        console.log(paramId, param);
+
+        // for every option in this category
+
+        for(let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+
+          const option = param.options[optionId];
+          console.log(optionId, option);
+
+          // check if there is param with a name of paramId in formData and if it includes optionId
+          if(formData[paramId] && formData[paramId].includes(optionId)) {
+            // check if the option is not default
+            if(!option.default){
+              // add option price to price variable
+              
+              price += option.default;
+            }
+            // check if the option is default
+          } else if(option.default) {
+
+            // reduce price variable
+            
+            price -= option.default;
+          }
+
+        }
+      }
+
+      // update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;
+    }
+    
   }
 
   const app = {
