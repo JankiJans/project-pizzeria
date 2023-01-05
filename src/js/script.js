@@ -100,6 +100,7 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //odpowiada za przycisk add to cart po rozwinęciu
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //opowiada za cenę TOTAL po rozwinięciu
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //szuka obazków
+      console.log('thisProduct.imageWrapper:', thisProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -207,10 +208,31 @@
             // reduce price variable
             
             price -= option.price;
+
+          } 
+
+          const optionImages = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId)
+          console.log(optionImages)
+
+
+          //for (let image of optionImages) {
+            //image.addEventListener('click', function() {
+              //this.classList.toggle('active');
+            //});
+          //}
+          const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+          
+          if(optionImages) {
+            if(optionSelected) {
+              optionImages.classList.add('active')
+              
+            } else {
+              optionImages.classList.remove('active')
+            }
           }
 
-
         }
+
       }
 
       // update calculated price in the HTML
