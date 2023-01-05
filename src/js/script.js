@@ -63,7 +63,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderFrom();
-      thisProduct.procesOrder();
+      thisProduct.proccesOrder();
       
 
       console.log('new Product:', thisProduct);
@@ -99,6 +99,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs); //elemnt który odpowiada za ilość dodanych albo odjętych elemnetów
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton); //odpowiada za przycisk add to cart po rozwinęciu
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem); //opowiada za cenę TOTAL po rozwinięciu
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper); //szuka obazków
     }
 
     initAccordion(){
@@ -124,7 +125,7 @@
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
 
-        if(activeProduct && activeProduct !== thisProduct.element){
+        if(activeProduct && activeProduct !== thisProduct.element) {
 
           activeProduct.classList.remove('active');
         }
@@ -137,19 +138,19 @@
 
     }
 
-    initOrderFrom(){  //średnio ogarniam
+    initOrderFrom(){
       const thisProduct = this;
       console.log('initOrderFrom:', thisProduct);
 
       thisProduct.form.addEventListener('submit', function(event){
         event.preventDefault();
-        thisProduct.procesOrder();
+        thisProduct.proccesOrder();
   
       });
 
       for(let input of thisProduct.formInputs){
         input.addEventListener('change', function(){
-          thisProduct.procesOrder();
+          thisProduct.proccesOrder();
 
         });
 
@@ -157,15 +158,15 @@
 
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
-        thisProduct.procesOrder();
+        thisProduct.proccesOrder();
 
       });
 
     }
 
-    procesOrder(){  //średnio ogarniam 
+    proccesOrder(){  //średnio ogarniam 
       const thisProduct = this;
-      console.log('procesOrder:', thisProduct);
+      console.log('proccesOrder:', thisProduct);
 
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
 
@@ -198,15 +199,16 @@
             if(!option.default){
               // add option price to price variable
               
-              price += option.default;
+              price += option.price;
             }
             // check if the option is default
           } else if(option.default) {
 
             // reduce price variable
             
-            price -= option.default;
+            price -= option.price;
           }
+
 
         }
       }
