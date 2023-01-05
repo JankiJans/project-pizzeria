@@ -211,8 +211,8 @@
 
           } 
 
-          const optionImages = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId)
-          console.log(optionImages)
+          const optionImages = thisProduct.imageWrapper.querySelector('.' + paramId + '-' + optionId);
+          console.log(optionImages);
 
 
           //for (let image of optionImages) {
@@ -221,13 +221,13 @@
             //});
           //}
           const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
-          
+
           if(optionImages) {
             if(optionSelected) {
-              optionImages.classList.add('active')
+              optionImages.classList.add('active');
               
             } else {
-              optionImages.classList.remove('active')
+              optionImages.classList.remove('active');
             }
           }
 
