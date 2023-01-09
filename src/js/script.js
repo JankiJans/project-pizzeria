@@ -166,6 +166,7 @@
 
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
+
         thisProduct.proccesOrder();
 
       });
@@ -242,6 +243,9 @@
 
       }
 
+      
+      // multiply price by amount
+      price *= thisProduct.amountWidget.value;
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
     }
@@ -250,6 +254,11 @@
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.proccesOrder();
+      });
+      
     }
     
   }
@@ -282,23 +291,26 @@
     setValue(Value){
       const thisWidget = this;
 
-      const newValue = parseInt(Value);
+      const newValue = parseInt(Value); //paraseInt zmienia ciąg znaków na liczbe całkowitą, jeśli podany ciąg znaków nie jest ciągiem liczbowym funkcji zwróci NaN
       console.log(newValue);
 
       /* TODO: Add validation */
 
-      thisWidget.value = newValue;
-      thisWidget.input.value = thisWidget.value;
-
       if(thisWidget.value !== newValue && !isNaN(newValue)) { //pętla w której `thisWidget.value` zmieni się tylko wtedy jeśl nowa wpisana w input wartość będzie inna niż obecna
-        thisWidget.value = newValue;
-        console.log('setValue:', newValue);
 
-        if (thisWidget.input.newValue < 0){
-          thisWidget.linkDecrease = 0;
-        }  
+        if (newValue >= settings.amountWidget.defaultMin){
+          if (newValue <= settings.amountWidget.defaultMax){
+            thisWidget.value = newValue;
+          }
+
+        } 
       }
 
+      thisWidget.input.value = thisWidget.value;
+
+      console.log('setValue:', newValue);
+
+      thisWidget.announce();
     }
 
     initActions(){
@@ -320,6 +332,13 @@
         thisWidget.setValue(thisWidget.value +1);
       });
       
+    }
+
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
 
   }
