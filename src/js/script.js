@@ -376,7 +376,42 @@
     }
 
   }
+  class Cart {
+    constructor(element){
+      const thisCart = this;
 
+      thisCart.products = []; //przechowuje produkty dodane do koszyka
+
+      thisCart.getElements(element);
+
+      thisCart.getElements(element);
+      thisCart.initActions();
+
+      console.log('new Cart', thisCart);
+    }
+
+    getElements(element){
+      const thisCart = this;
+
+      thisCart.dom = {};
+
+      thisCart.dom.wrapper = element;
+      console.log('Cart:', thisCart.dom.wrapper);
+
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
+      console.log('Cart:', thisCart.dom.toggleTrigger);
+    }
+
+    initActions(){
+      const thisCart = this;
+
+      thisCart.dom.toggleTrigger.addEventListener('click', function(event){
+        event.preventDefault();
+
+        thisCart.dom.wrapper.classList.toggle('active');
+      });
+    }
+  }
   const app = {
     initMenu: function(){
       const thisApp = this;
@@ -392,6 +427,16 @@
   
       thisApp.data = dataSource; //odnośnik do data.js/dataSource
     },
+
+    initCart: function(){
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
+
+      console.log(cartElem);
+      console.log('thisApp.cart:', thisApp.cart);
+    },
   
     init: function(){
       const thisApp = this;
@@ -403,7 +448,8 @@
 
       thisApp.initData(); //wyołanie `initData` przez `thisApp`
       thisApp.initMenu(); //wyołanie `initMenu` przez `thisApp`
-    },  
+      thisApp.initCart();
+    },
   };
 
   app.init();
