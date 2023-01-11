@@ -332,7 +332,7 @@
 
       const formData = utils.serializeFormToObject(thisProduct.form);
 
-      const params = {}
+      const params = {};
 
       for(let paramId in thisProduct.data.params) {
 
@@ -343,7 +343,7 @@
         params[paramId] = {
           label: param.label,
           options: {}
-        }
+        };
         
         // for every option in this category
         for(let optionId in param.options) {
@@ -354,7 +354,7 @@
 
           if(optionSelected){
 
-            params[paramId].options[optionId] = option.label
+            params[paramId].options[optionId] = option.label;
 
           }
           
