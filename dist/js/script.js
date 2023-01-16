@@ -525,7 +525,7 @@
         event.preventDefault();
 
         thisCart.sendOrder();
-      })
+      });
       
     }
 
