@@ -1,6 +1,7 @@
 import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 //import AmountWidget from './components/AmountWidget.js';
 //import CartProduct from './components/CartProduct.js';
 
@@ -44,6 +45,14 @@ const app = {
 
       });
     }
+  },
+
+  initBooking: function(){
+    const thisApp = this;
+
+    const WidgetContainer = document.querySelector(select.containerOf.booking);
+
+    thisApp.booking = new Booking(WidgetContainer);
   },
 
   activatePage: function(pageId){
@@ -125,6 +134,7 @@ const app = {
     thisApp.initPages();
     thisApp.initData(); //wyołanie `initData` przez `thisApp`
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
 
