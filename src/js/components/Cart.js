@@ -33,10 +33,10 @@ class Cart {
       thisCart.dom.deliveryFee = thisCart.dom.wrapper.querySelector(select.cart.deliveryFee);
 
       thisCart.dom.subtotalPrice = thisCart.dom.wrapper.querySelector(select.cart.subtotalPrice);
-      console.log('thisCart.dom.subtotalPrice:', thisCart.dom.subtotalPrice);
+      //console.log('thisCart.dom.subtotalPrice:', thisCart.dom.subtotalPrice);
 
       thisCart.dom.totalPrice = thisCart.dom.wrapper.querySelectorAll(select.cart.totalPrice);
-      console.log('thisCart.dom.totalPrice:', thisCart.dom.totalPrice);
+      //console.log('thisCart.dom.totalPrice:', thisCart.dom.totalPrice);
 
       thisCart.dom.totalNumber = thisCart.dom.wrapper.querySelector(select.cart.totalNumber);
 
@@ -172,7 +172,7 @@ class Cart {
         .then(function(response){
           return response.json();
         }).then(function(parsedResponse){
-          console.log('parsedResponse', parsedResponse);
+          //console.log('parsedResponse', parsedResponse);
         });
     }
   }
