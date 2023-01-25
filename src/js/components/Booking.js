@@ -1,4 +1,4 @@
-import { templates, select } from "../settings.js";
+import { templates, select } from '../settings.js';
 import AmountWidget from './AmountWidget.js';
 import utils from '../utils.js';
 
@@ -32,7 +32,7 @@ class Booking {
 
     initWidgets(){
         const thisBooking = this;
-  
+
         thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
         thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
 

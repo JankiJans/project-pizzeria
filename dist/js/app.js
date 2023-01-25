@@ -23,7 +23,7 @@ const app = {
         pageMatchingHash = page.id;
         break;
       }
-    };
+    }
     
     thisApp.activatePage(pageMatchingHash);
 
