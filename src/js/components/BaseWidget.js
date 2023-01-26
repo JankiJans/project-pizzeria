@@ -48,7 +48,7 @@ class BaseWidget {
   }
   
   isValid(value){
-    return !isNaN(value)
+    return !isNaN(value);
 
   }
 
