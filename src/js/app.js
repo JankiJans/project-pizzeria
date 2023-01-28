@@ -5,9 +5,8 @@ import Booking from './components/Booking.js';
 //import AmountWidget from './components/AmountWidget.js';
 //import CartProduct from './components/CartProduct.js';
 
-
 const app = {
-  initPages: function(){
+  initPages: function () {
     const thisApp = this;
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
@@ -18,17 +17,17 @@ const app = {
 
     let pageMatchingHash = thisApp.pages[0].id;
 
-    for(let page of thisApp.pages){
-      if(page.id == idFromHash){
+    for (let page of thisApp.pages) {
+      if (page.id == idFromHash) {
         pageMatchingHash = page.id;
         break;
       }
     }
-    
+
     thisApp.activatePage(pageMatchingHash);
 
-    for(let link of thisApp.navLinks){
-      link.addEventListener('click', function(event){
+    for (let link of thisApp.navLinks) {
+      link.addEventListener('click', function (event) {
         const clickedElement = this;
         event.preventDefault();
 
@@ -42,12 +41,11 @@ const app = {
         /* change URL hash */
 
         window.location.hash = '#/' + id;
-
       });
     }
   },
 
-  initBooking: function(){
+  initBooking: function () {
     const thisApp = this;
 
     const WidgetContainer = document.querySelector(select.containerOf.booking);
@@ -55,14 +53,14 @@ const app = {
     thisApp.booking = new Booking(WidgetContainer);
   },
 
-  activatePage: function(pageId){
+  activatePage: function (pageId) {
     const thisApp = this;
 
     /* add class "active" to matching pages, remove from non-matching */
 
-    for(let page of thisApp.pages){ 
-      //if(page.id == pageId){ 
-      // page.classList.add(classNames.pages.active) 
+    for (let page of thisApp.pages) {
+      //if(page.id == pageId){
+      // page.classList.add(classNames.pages.active)
       //} else {
       //  page.classList.remove(classNames.pages.active)
       //}
@@ -71,25 +69,20 @@ const app = {
     }
 
     /* add class "active" to matching links, remove from non-matching */
-    for(let link of thisApp.navLinks){
-      link.classList.toggle(
-        classNames.nav.active,
-        link.getAttribute('href') == '#' + pageId
-        
-      );
+    for (let link of thisApp.navLinks) {
+      link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
     }
-
   },
-  initMenu: function(){
+  initMenu: function () {
     const thisApp = this;
     //console.log('thisApp.data:', thisApp.data);
 
-    for(let productData in thisApp.data.products){
+    for (let productData in thisApp.data.products) {
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
     }
   },
 
-  initData: function(){
+  initData: function () {
     const thisApp = this;
 
     thisApp.data = {};
@@ -97,21 +90,19 @@ const app = {
     const url = settings.db.url + '/' + settings.db.products;
 
     fetch(url)
-      .then(function(rawResponse){
+      .then(function (rawResponse) {
         return rawResponse.json();
       })
-      .then(function(parsedResponse){
+      .then(function (parsedResponse) {
         //console.log('parsedResponse', parsedResponse);
 
         thisApp.data.products = parsedResponse;
         app.initMenu();
-
       });
-      //console.log('thisApp.data', JSON.stringify(thisApp.data));
-
+    //console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
 
-  initCart: function(){
+  initCart: function () {
     const thisApp = this;
 
     const cartElem = document.querySelector(select.containerOf.cart);
@@ -119,12 +110,12 @@ const app = {
 
     thisApp.productList = document.querySelector(select.containerOf.menu);
 
-    thisApp.productList.addEventListener('add-to-cart', function(event){
+    thisApp.productList.addEventListener('add-to-cart', function (event) {
       app.cart.add(event.detail.product);
     });
   },
 
-  init: function(){
+  init: function () {
     const thisApp = this;
     //console.log('*** App starting ***');
     //console.log('thisApp:', thisApp);

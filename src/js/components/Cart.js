@@ -1,9 +1,9 @@
-import {settings, classNames, select, templates} from '../settings.js';
+import { settings, classNames, select, templates } from '../settings.js';
 import utils from '../utils.js';
 import CartProduct from './CartProduct.js';
 
 class Cart {
-  constructor(element){
+  constructor(element) {
     const thisCart = this;
 
     thisCart.products = []; //przechowuje produkty dodane do koszyka
@@ -16,7 +16,7 @@ class Cart {
     //console.log('new Cart', thisCart);
   }
 
-  getElements(element){
+  getElements(element) {
     const thisCart = this;
 
     thisCart.dom = {};
@@ -45,35 +45,33 @@ class Cart {
     thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
 
     thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
-
   }
 
-  initActions(){
+  initActions() {
     const thisCart = this;
 
-    thisCart.dom.toggleTrigger.addEventListener('click', function(event){
+    thisCart.dom.toggleTrigger.addEventListener('click', function (event) {
       event.preventDefault();
 
       thisCart.dom.wrapper.classList.toggle(classNames.menuProduct.wrapperActive);
     });
 
-    thisCart.dom.productList.addEventListener('updated', function(){
+    thisCart.dom.productList.addEventListener('updated', function () {
       thisCart.update();
     });
 
-    thisCart.dom.productList.addEventListener('remove', function(event){
+    thisCart.dom.productList.addEventListener('remove', function (event) {
       thisCart.remove(event.detail.cartProduct);
     });
 
-    thisCart.dom.form.addEventListener('submit', function(event){
+    thisCart.dom.form.addEventListener('submit', function (event) {
       event.preventDefault();
 
       thisCart.sendOrder();
     });
-    
   }
 
-  add(menuProduct){
+  add(menuProduct) {
     const thisCart = this;
 
     const generatedHTML = templates.cartProduct(menuProduct);
@@ -90,10 +88,9 @@ class Cart {
     thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
 
     thisCart.update();
-
   }
 
-  update(){
+  update() {
     const thisCart = this;
 
     const deliveryFee = settings.cart.defaultDeliveryFee;
@@ -101,26 +98,19 @@ class Cart {
     thisCart.subtotalPrice = 0;
     thisCart.totalPrice = 0;
 
-    for(let product of thisCart.products){
-
+    for (let product of thisCart.products) {
       thisCart.totalNumber += product.amount;
       thisCart.subtotalPrice += product.price;
     }
 
-    if(thisCart.subtotalPrice != 0) {
-
+    if (thisCart.subtotalPrice != 0) {
       thisCart.totalPrice = thisCart.subtotalPrice + deliveryFee;
-      
     } else {
-
       thisCart.totalPrice = 0;
-      
     }
 
-    for(let total of thisCart.dom.totalPrice){
-
+    for (let total of thisCart.dom.totalPrice) {
       total.innerHTML = thisCart.totalPrice;
-
     }
 
     thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
@@ -128,7 +118,7 @@ class Cart {
     thisCart.dom.deliveryFee.innerHTML = deliveryFee;
   }
 
-  remove(event){
+  remove(event) {
     const thisCart = this;
 
     event.dom.wrapper.remove();
@@ -138,10 +128,9 @@ class Cart {
     thisCart.products.splice(productToRemove, 1);
 
     thisCart.update();
-
   }
 
-  sendOrder(){
+  sendOrder() {
     const thisCart = this;
 
     const url = settings.db.url + '/' + settings.db.orders;
@@ -156,7 +145,7 @@ class Cart {
       products: [],
     };
 
-    for(let prod of thisCart.products){
+    for (let prod of thisCart.products) {
       payload.products.push(prod.getData());
     }
 
@@ -167,11 +156,12 @@ class Cart {
       },
       body: JSON.stringify(payload),
     };
-    
+
     fetch(url, options)
-      .then(function(response){
+      .then(function (response) {
         return response.json();
-      }).then(function(parsedResponse){
+      })
+      .then(function (parsedResponse) {
         console.log('parsedResponse', parsedResponse);
       });
   }
