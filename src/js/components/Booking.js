@@ -46,9 +46,9 @@ class Booking {
       })
 
       .then(function ([booking, eventsCurrent, eventsRepeat]) {
-        //console.log(bookings);
-        //console.log(eventsCurrent);
-        //console.log(eventsRepeat);
+        console.log(booking);
+        console.log(eventsCurrent);
+        console.log(eventsRepeat);
         thisBooking.parseData(booking, eventsCurrent, eventsRepeat);
       });
   }
@@ -126,6 +126,16 @@ class Booking {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
+
+    for (let table of thisBooking.dom.tables) {
+      //dodaje klasę selected do wybranego stolika
+
+      if (table.classList.contains('selected')) {
+        //sprawdza czy kliknięty element posiada klasę selected
+
+        table.classList.remove('selected'); //jeśli tak, to usuwa ją
+      }
+    }
   }
 
   render(element) {
@@ -143,6 +153,7 @@ class Booking {
       datePicker: element.querySelector(select.widgets.datePicker.wrapper),
       hourPicker: element.querySelector(select.widgets.hourPicker.wrapper),
       tables: element.querySelectorAll(select.booking.tables),
+      tableContainer: element.querySelector(select.containerOf.tableContainer),
     };
   }
 
@@ -156,6 +167,37 @@ class Booking {
 
     thisBooking.dom.wrapper.addEventListener('updated', function () {
       thisBooking.updateDOM();
+    });
+
+    const selectedTable = [];
+
+    thisBooking.dom.tableContainer.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const table = event.target;
+
+      if (table.classList.contains(classNames.booking.tableBooked) && table.classList.contains(classNames.booking.table)) {
+        //sprawdza czy kliknięty element posiada klasę tableBooked
+
+        return window.alert('you cannot book this table, it is already booked'); //jeśli tak, to wyświetla komunikat
+      }
+
+      if (table.classList.contains(classNames.booking.tableSelected)) {
+        //sprawdza czy kliknięty element posiada klasę selected zapisaną w pliku settings.js
+
+        table.classList.remove(classNames.booking.tableSelected); //jeśli tak, to usuwa klasę selected
+        thisBooking.updateDOM(); //aktualizuje wygląd tabeli
+      }
+
+      if (!table.classList.contains(classNames.booking.tableSelected)) {
+        //sprawdza czy kliknięty element nie posiada klasy selected
+
+        thisBooking.updateDOM(); //aktualizuje wygląd tabeli
+        const tableId = table.getAttribute(settings.booking.tableIdAttribute); //pobiera id klikniętego elementu
+        table.classList.add(classNames.booking.tableSelected); //dodaje klasę selected do klikniętego elementu
+        selectedTable.pop(); //usuwa poprzednio wybraną tablicę z tablicy selectedTable
+        selectedTable.push(tableId); //dodaje do tablicy selectedTable id klikniętego elementu
+      }
     });
   }
 }
