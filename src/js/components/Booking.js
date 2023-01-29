@@ -200,6 +200,48 @@ class Booking {
       }
     });
   }
+
+  sendBooking() {
+    const thisBooking = this;
+
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const payload = {
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: parseInt(selectedTable),
+      duration: parseInt(thisBooking.dom.duration.value),
+      ppl: parseInt(thisBooking.dom.ppl.value),
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value,
+    };
+
+    for (let starter of thisBooking.dom.starters) {
+      if (starter.checked) {
+        payload.starters.push(starter.value);
+      }
+    }
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(url, options)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (parsedResponse) {
+        alert('Thank you for your booking!');
+        console.log('parsedResponse', parsedResponse);
+        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
+        thisBooking.updateDOM();
+      });
+  }
 }
 
 export default Booking;
