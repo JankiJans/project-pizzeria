@@ -169,12 +169,12 @@ class Booking {
       thisBooking.updateDOM();
     });
 
-    const selectedTable = [];
-
     thisBooking.dom.tableContainer.addEventListener('click', function (event) {
       event.preventDefault();
 
+      const selectedTable = [];
       const table = event.target;
+      const tableNumber = table.getAttribute(settings.booking.tableIdAttribute);
 
       if (table.classList.contains(classNames.booking.tableBooked) && table.classList.contains(classNames.booking.table)) {
         //sprawdza czy kliknięty element posiada klasę tableBooked
@@ -195,6 +195,7 @@ class Booking {
         thisBooking.updateDOM(); //aktualizuje wygląd tabeli
         const tableId = table.getAttribute(settings.booking.tableIdAttribute); //pobiera id klikniętego elementu
         table.classList.add(classNames.booking.tableSelected); //dodaje klasę selected do klikniętego elementu
+        thisBooking.selectedTable = parseInt(tableNumber);
         selectedTable.pop(); //usuwa poprzednio wybraną tablicę z tablicy selectedTable
         selectedTable.push(tableId); //dodaje do tablicy selectedTable id klikniętego elementu
       }
@@ -204,12 +205,14 @@ class Booking {
   sendBooking() {
     const thisBooking = this;
 
+    
+
     const url = settings.db.url + '/' + settings.db.booking;
 
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: parseInt(selectedTable),
+      table: thisBooking.selectedTable,
       duration: parseInt(thisBooking.dom.duration.value),
       ppl: parseInt(thisBooking.dom.ppl.value),
       starters: [],

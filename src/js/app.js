@@ -2,6 +2,7 @@ import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
 //import AmountWidget from './components/AmountWidget.js';
 //import CartProduct from './components/CartProduct.js';
 
@@ -53,19 +54,20 @@ const app = {
     thisApp.booking = new Booking(WidgetContainer);
   },
 
+  initHome: function () {
+    const thisApp = this;
+
+    thisApp.homeElem = document.querySelector(select.containerOf.home);
+    thisApp.homePage = new Home(thisApp.homeElem);
+  },
+
   activatePage: function (pageId) {
     const thisApp = this;
 
     /* add class "active" to matching pages, remove from non-matching */
 
     for (let page of thisApp.pages) {
-      //if(page.id == pageId){
-      // page.classList.add(classNames.pages.active)
-      //} else {
-      //  page.classList.remove(classNames.pages.active)
-      //}
-
-      page.classList.toggle(classNames.pages.active, page.id == pageId); //zamiast ifa i else, to jest ten sam kod i robi to samo
+      page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
 
     /* add class "active" to matching links, remove from non-matching */
@@ -126,6 +128,7 @@ const app = {
     thisApp.initData(); //wyołanie `initData` przez `thisApp`
     thisApp.initCart();
     thisApp.initBooking();
+    thisApp.initHome();
   },
 };
 

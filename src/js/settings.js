@@ -3,6 +3,7 @@ export const select = {
     menuProduct: '#template-menu-product',
     cartProduct: '#template-cart-product', // CODE ADDED
     bookingWidget: '#template-booking-widget', //CODE ADDED 10.4
+    homeWidget: '#template-home-widget',
   },
   containerOf: {
     menu: '#product-list',
@@ -10,6 +11,8 @@ export const select = {
     pages: '#pages', // CODE ADDED 10.4
     booking: '.booking-wrapper', // CODE ADDED 10.4
     tableContainer: '.floor-plan',
+    home: '.home-wrapper',
+    carousel: '.main-carousel',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -47,6 +50,7 @@ export const select = {
   },
   nav: {
     links: '.main-nav a',
+    pictureLinks: '.home-image a',
   },
 
   // CODE ADDED START
@@ -141,4 +145,6 @@ export const templates = {
   cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   // CODE ADDED END
   bookingWidget: Handlebars.compile(document.querySelector(select.templateOf.bookingWidget).innerHTML),
+
+  home: Handlebars.compile(document.querySelector(select.templateOf.homeWidget).innerHTML),
 };
