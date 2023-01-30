@@ -170,23 +170,23 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
-    white-space: nowrap;
-
   }
 
   .fa-solid {
     color: #fff;
     transition: 1s;
+    font-size: 30px;
+    visibility: hidden;
 
-    &:hover::after {
+    &:hover {
       color: #ff6b6b;
-      visibility: visible;
       opacity: 1;
+      visibility: visible;
     }
   }
+
+
+
 }
 
 .footer {
