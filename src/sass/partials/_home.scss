@@ -170,13 +170,10 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-  }
-
-  .fa-solid {
     color: #fff;
     transition: 1s;
     font-size: 30px;
-    visibility: hidden;
+    opacity: 0;
 
     &:hover {
       color: #ff6b6b;
@@ -184,6 +181,19 @@
       visibility: visible;
     }
   }
+
+  //.fa-solid {
+  //  color: #fff;
+  //  transition: 1s;
+  //  font-size: 30px;
+  //  visibility: hidden;
+
+  //&:hover {
+  // color: #ff6b6b;
+  // opacity: 1;
+  // visibility: visible;
+  //}
+  // }
 }
 
 .footer {
