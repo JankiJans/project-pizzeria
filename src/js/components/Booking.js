@@ -154,6 +154,12 @@ class Booking {
       hourPicker: element.querySelector(select.widgets.hourPicker.wrapper),
       tables: element.querySelectorAll(select.booking.tables),
       tableContainer: element.querySelector(select.containerOf.tableContainer),
+      bookTableBtn: element.querySelector(select.containerOf.bookTableBtn),
+      address: element.querySelector(select.booking.address),
+      phone: element.querySelector(select.booking.phone),
+      starters: element.querySelectorAll(select.booking.starters),
+      hours: element.querySelector(select.booking.hours),
+      ppl: element.querySelector(select.booking.ppl),
     };
   }
 
@@ -200,20 +206,25 @@ class Booking {
         selectedTable.push(tableId); //dodaje do tablicy selectedTable id klikniętego elementu
       }
     });
-  }
 
-  sendBooking() {
-    const thisBooking = this;
+    thisBooking.dom.bookTableBtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      thisBooking.sendBooking();
+    });
 
     
+  }
+
+  sendBooking(selectedTable) {
+    const thisBooking = this;
 
     const url = settings.db.url + '/' + settings.db.booking;
 
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: thisBooking.selectedTable,
-      duration: parseInt(thisBooking.dom.duration.value),
+      table: parseInt(selectedTable),
+      hours: parseInt(select.booking.hours),
       ppl: parseInt(thisBooking.dom.ppl.value),
       starters: [],
       phone: thisBooking.dom.phone.value,

@@ -13,6 +13,7 @@ export const select = {
     tableContainer: '.floor-plan',
     home: '.home-wrapper',
     carousel: '.main-carousel',
+    bookTableBtn: '.btn-secondary',
   },
   all: {
     menuProducts: '#product-list > .product',
@@ -47,6 +48,11 @@ export const select = {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
+    address: '[name="address"]',
+    phone: '[name="phone"]',
+    starters: 'input[type="checkbox"]',
+    ppl: '[name="people"]',
+    hours: '[name="hours"]'
   },
   nav: {
     links: '.main-nav a',
