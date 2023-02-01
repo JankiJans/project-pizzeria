@@ -75,7 +75,7 @@ const app = {
       link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
     }
   },
-  initMenu: function () {
+  initMenu: function () { 
     const thisApp = this;
     //console.log('thisApp.data:', thisApp.data);
 

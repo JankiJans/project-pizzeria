@@ -154,11 +154,11 @@ class Booking {
       hourPicker: element.querySelector(select.widgets.hourPicker.wrapper),
       tables: element.querySelectorAll(select.booking.tables),
       tableContainer: element.querySelector(select.containerOf.tableContainer),
+      duration: element.querySelector(select.booking.duration),
       bookTableBtn: element.querySelector(select.containerOf.bookTableBtn),
       address: element.querySelector(select.booking.address),
       phone: element.querySelector(select.booking.phone),
       starters: element.querySelectorAll(select.booking.starters),
-      hours: element.querySelector(select.booking.hours),
       ppl: element.querySelector(select.booking.ppl),
     };
   }
@@ -176,11 +176,11 @@ class Booking {
     });
 
     thisBooking.dom.tableContainer.addEventListener('click', function (event) {
-      event.preventDefault();
 
+      event.preventDefault();
+      
       const selectedTable = [];
       const table = event.target;
-      const tableNumber = table.getAttribute(settings.booking.tableIdAttribute);
 
       if (table.classList.contains(classNames.booking.tableBooked) && table.classList.contains(classNames.booking.table)) {
         //sprawdza czy kliknięty element posiada klasę tableBooked
@@ -201,11 +201,13 @@ class Booking {
         thisBooking.updateDOM(); //aktualizuje wygląd tabeli
         const tableId = table.getAttribute(settings.booking.tableIdAttribute); //pobiera id klikniętego elementu
         table.classList.add(classNames.booking.tableSelected); //dodaje klasę selected do klikniętego elementu
-        thisBooking.selectedTable = parseInt(tableNumber);
+        thisBooking.selectedTable = parseInt(tableId);
         selectedTable.pop(); //usuwa poprzednio wybraną tablicę z tablicy selectedTable
         selectedTable.push(tableId); //dodaje do tablicy selectedTable id klikniętego elementu
       }
+      
     });
+    
 
     thisBooking.dom.bookTableBtn.addEventListener('click', function (event) {
       event.preventDefault();
@@ -224,7 +226,7 @@ class Booking {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
       table: parseInt(selectedTable),
-      hours: parseInt(select.booking.hours),
+      duration: parseInt(thisBooking.dom.duration),
       ppl: parseInt(thisBooking.dom.ppl.value),
       starters: [],
       phone: thisBooking.dom.phone.value,
