@@ -136,6 +136,8 @@ class Booking {
         table.classList.remove('selected'); //jeśli tak, to usuwa ją
       }
     }
+
+    thisBooking.selectedTable = null;
   }
 
   render(element) {
@@ -176,10 +178,8 @@ class Booking {
     });
 
     thisBooking.dom.tableContainer.addEventListener('click', function (event) {
-
       event.preventDefault();
-      
-      const selectedTable = [];
+
       const table = event.target;
 
       if (table.classList.contains(classNames.booking.tableBooked) && table.classList.contains(classNames.booking.table)) {
@@ -193,31 +193,25 @@ class Booking {
 
         table.classList.remove(classNames.booking.tableSelected); //jeśli tak, to usuwa klasę selected
         thisBooking.updateDOM(); //aktualizuje wygląd tabeli
-      }
+        
 
-      if (!table.classList.contains(classNames.booking.tableSelected)) {
+      } else if (!table.classList.contains(classNames.booking.tableSelected)) {
         //sprawdza czy kliknięty element nie posiada klasy selected
 
         thisBooking.updateDOM(); //aktualizuje wygląd tabeli
         const tableId = table.getAttribute(settings.booking.tableIdAttribute); //pobiera id klikniętego elementu
         table.classList.add(classNames.booking.tableSelected); //dodaje klasę selected do klikniętego elementu
         thisBooking.selectedTable = parseInt(tableId);
-        selectedTable.pop(); //usuwa poprzednio wybraną tablicę z tablicy selectedTable
-        selectedTable.push(tableId); //dodaje do tablicy selectedTable id klikniętego elementu
       }
-      
     });
-    
 
     thisBooking.dom.bookTableBtn.addEventListener('click', function (event) {
       event.preventDefault();
       thisBooking.sendBooking();
     });
-
-    
   }
 
-  sendBooking(selectedTable) {
+  sendBooking() {
     const thisBooking = this;
 
     const url = settings.db.url + '/' + settings.db.booking;
@@ -225,8 +219,8 @@ class Booking {
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: parseInt(selectedTable),
-      duration: parseInt(thisBooking.dom.duration),
+      table: parseInt(thisBooking.selectedTable),
+      duration: parseInt(thisBooking.dom.duration.value),
       ppl: parseInt(thisBooking.dom.ppl.value),
       starters: [],
       phone: thisBooking.dom.phone.value,

@@ -52,7 +52,7 @@ export const select = {
     phone: '[name="phone"]',
     starters: 'input[type="checkbox"]',
     ppl: '[name="people"]',
-    hours: '[name="hours"]'
+    duration: '[name="hours"]'
   },
   nav: {
     links: '.main-nav a',
