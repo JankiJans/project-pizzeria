@@ -102,6 +102,7 @@ export const classNames = {
   },
   pages: {
     active: 'active',
+    active: 'active',
   },
   table: {
     tableSelected: 'selected',
